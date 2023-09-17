@@ -14,12 +14,12 @@ export function Pagination() {
       </Box>
       <Stack direction="row" spacing="2">
         <PaginationItem number={1} isCurrent />
-        <PaginationItem number={2} isCurrent />
-        <PaginationItem number={3} isCurrent />
-        <PaginationItem number={4} isCurrent />
-        <PaginationItem number={5} isCurrent />
-        <PaginationItem number={6} isCurrent />
-        <PaginationItem number={7} isCurrent />
+        <PaginationItem number={2} />
+        <PaginationItem number={3} />
+        <PaginationItem number={4} />
+        <PaginationItem number={5} />
+        <PaginationItem number={6} />
+        <PaginationItem number={7} />
       </Stack>
     </Stack>
   );

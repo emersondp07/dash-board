@@ -6,8 +6,8 @@ interface PaginationItemProps {
 }
 
 export function PaginationItem({
-  isCurrent = false,
   number,
+  isCurrent = false,
 }: PaginationItemProps) {
   if (isCurrent) {
     return (
@@ -26,14 +26,16 @@ export function PaginationItem({
       </Button>
     );
   }
-
-  <Button
-    size="sm"
-    fontSize="xs"
-    width="4"
-    bg="gray.700"
-    _hover={{ bg: "gray.500" }}
-  >
-    {number}
-  </Button>;
+  return (
+    <Button
+      size="sm"
+      fontSize="xs"
+      width="4"
+      bg="gray.700"
+      color="white"
+      _hover={{ bg: "gray.500" }}
+    >
+      {number}
+    </Button>
+  );
 }
