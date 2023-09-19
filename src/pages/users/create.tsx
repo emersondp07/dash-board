@@ -14,9 +14,14 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+
+import { useRouter } from "next/router";
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
+import { api } from "../../services/api";
+import { queryClient } from "../../services/queryClient";
 
 type CreateUserFormData = {
   name: string;
@@ -25,7 +30,7 @@ type CreateUserFormData = {
   password_confirmation: string;
 };
 
-const signInFormSchema = yup.object().shape({
+const createUserFormSchema = yup.object().shape({
   name: yup.string().required("Nome obrigatório"),
   email: yup.string().required("E-mail obrigatório").email("E-mail inválido"),
   password: yup
@@ -38,19 +43,40 @@ const signInFormSchema = yup.object().shape({
 });
 
 export default function CreateUser() {
+  const router = useRouter();
+
+  const createUser = useMutation(
+    async (user: CreateUserFormData | FieldValues) => {
+      const response = await api.post("users", {
+        user: {
+          ...user,
+          created_at: new Date(),
+        },
+      });
+
+      return response.data.user;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("users");
+      },
+    }
+  );
+
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm({
-    resolver: yupResolver(signInFormSchema),
+    resolver: yupResolver(createUserFormSchema),
   });
 
   const handleCreateUser: SubmitHandler<
     CreateUserFormData | FieldValues
   > = async (values) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log(values);
+    await createUser.mutateAsync(values);
+
+    // router.push("users");
   };
 
   return (
