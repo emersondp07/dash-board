@@ -76,7 +76,7 @@ export default function CreateUser() {
   > = async (values) => {
     await createUser.mutateAsync(values);
 
-    // router.push("users");
+    router.push("/users");
   };
 
   return (
